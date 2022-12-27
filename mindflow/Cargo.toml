@@ -15,6 +15,7 @@ sha2 = "0.10.6"
 chardet = "0.2"
 tokio = { version = "0.2", features = ["full"] } 
 dialoguer = "0.10.2"
+futures = "0.3.25"
 
 
 [[bin]]
