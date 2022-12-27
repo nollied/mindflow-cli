@@ -22,13 +22,13 @@ pub(crate) struct UnindexedReferencesResponse {
 }
 
 pub(crate) async fn request_unindexed_references(client: &Client, resolved_references: &HashMap<String, Reference>) -> Result<UnindexedReferencesResponse, reqwest::Error> {
-    let mut unindexed_references_payload = Vec::new();
-    for (k, v) in resolved_references {
-        unindexed_references_payload.push(TrimmedReference {
+    let unindexed_references_payload: Vec<TrimmedReference> = resolved_references
+        .into_iter()
+        .map(|(k, v)| TrimmedReference {
             hash: k.clone(),
             reference_type: v.get_type().clone(),
-        });
-    }    
+        })
+        .collect();  
     let unindexed_references_payload: UnindexedReferenceRequest = UnindexedReferenceRequest {
         references: serde_json::to_string(&unindexed_references_payload).unwrap(),
     };

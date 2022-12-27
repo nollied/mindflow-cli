@@ -11,14 +11,12 @@ pub(crate) struct IndexReferencesRequest {
 }
 
 pub(crate) async fn request_index_references(client: &Client, resolved_references: &HashMap<String, Reference>, unindexed_hashes: &Vec<String>) {
-    let mut references_to_index = Vec::new();
-    for hash in unindexed_hashes {
-        references_to_index.push(resolved_references.get(hash).unwrap());
-    }
-    let url = format!("{}/index", API_LOCATION);
+    // Create a vector of size resolved_references.keys() and fill it with None
+    let references_to_index: Vec<Reference> = resolved_references.values().cloned().collect();
     let index_reference_request: IndexReferencesRequest = IndexReferencesRequest {
         references: serde_json::to_string(&references_to_index).unwrap(),
     };
+    let url = format!("{}/index", API_LOCATION);
     let res = client.post(&url).json(&index_reference_request).send().await;
     match res {
         Ok(_) => {
