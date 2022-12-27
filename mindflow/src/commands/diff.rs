@@ -17,9 +17,9 @@ impl Diff {
         let client = reqwest::Client::new();
 
         let prompt = generate_diff_prompt(&self.diff_args).await;
-        let request_prompt = request_prompt(&client, prompt).await;   
+        let request_prompt_response = request_prompt(&client, prompt).await;   
         
-        match request_prompt {
+        match request_prompt_response {
             Ok(response) => {
                 println!("{}", response.text);
             },

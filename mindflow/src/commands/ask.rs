@@ -15,9 +15,9 @@ impl Ask {
     pub(crate) async fn execute(&mut self) {
         let client = reqwest::Client::new();        
 
-        let request_prompt = request_prompt(&client, self.prompt.join(" ")).await;  
+        let request_prompt_response = request_prompt(&client, self.prompt.join(" ")).await;  
         
-        match request_prompt {
+        match request_prompt_response {
             Ok(response) => {
                 println!("{}", response.text);
             },
